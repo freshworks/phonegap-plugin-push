@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# phonegap-plugin-push
-=======
 #phonegap-plugin-push [![Build Status](https://travis-ci.org/phonegap/phonegap-plugin-push.svg)](https://travis-ci.org/phonegap/phonegap-plugin-push)
 
 > Register and receive push notifications
@@ -25,4 +22,3 @@ This plugin offers support to receive and handle native push notifications with 
 
  - [PhoneGap Day US Push Workshop 2016 (using node-gcm)](http://macdonst.github.io/push-workshop/)
  - [PhoneGap Day EU Push Workshop 2016 (using PhoneGap Push)](http://macdonst.github.io/push-workshop-eu/)
->>>>>>> 475883833556eb001e2e0adb986bd96b78bdcb2f

@@ -37,6 +37,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Random;
+import com.freshdesk.hotline.Hotline;
 
 @SuppressLint("NewApi")
 public class GCMIntentService extends GcmListenerService implements PushConstants {
@@ -63,6 +64,10 @@ public class GCMIntentService extends GcmListenerService implements PushConstant
         Log.d(LOG_TAG, "onMessage - from: " + from);
 
         if (extras != null) {
+            if(Hotline.isHotlineNotification(extras)){
+                Hotline.getInstance(getApplicationContext()).handleGcmMessage(extras);
+                return;
+            }
             Context applicationContext = getApplicationContext();
 
             SharedPreferences prefs = applicationContext.getSharedPreferences(PushPlugin.COM_ADOBE_PHONEGAP_PUSH, Context.MODE_PRIVATE);

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
+import com.freshdesk.hotline.Hotline;
 
 import java.io.IOException;
 
@@ -30,6 +31,7 @@ public class RegistrationIntentService extends IntentService implements PushCons
                     GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
             Log.i(LOG_TAG, "new GCM Registration Token: " + token);
 
+            Hotline.getInstance(getApplicationContext()).updateGcmRegistrationToken(token);
             // save new token
             SharedPreferences.Editor editor = sharedPreferences.edit();
             editor.putString(REGISTRATION_ID, token);
