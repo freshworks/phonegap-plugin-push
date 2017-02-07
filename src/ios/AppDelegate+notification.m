@@ -9,6 +9,7 @@
 #import "AppDelegate+notification.h"
 #import "PushPlugin.h"
 #import <objc/runtime.h>
+#import "Hotline.h"
 
 static char launchNotificationKey;
 static char coldstartKey;
@@ -87,6 +88,7 @@ static char coldstartKey;
 }
 
 - (void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+    [[Hotline sharedInstance] updateDeviceToken:deviceToken];
     PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
     [pushHandler didRegisterForRemoteNotificationsWithDeviceToken:deviceToken];
 }
@@ -98,6 +100,9 @@ static char coldstartKey;
 
 - (void) application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo {
     NSLog(@"clicked on the shade");
+    if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
+        [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
+    }
     PushPlugin *pushHandler = [self getCommandInstance:@"PushNotification"];
     pushHandler.notificationMessage = userInfo;
     pushHandler.isInline = NO;
@@ -106,7 +111,9 @@ static char coldstartKey;
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(void (^)(UIBackgroundFetchResult))completionHandler {
     NSLog(@"didReceiveNotification with fetchCompletionHandler");
-
+    if ([[Hotline sharedInstance]isHotlineNotification:userInfo]) {
+        [[Hotline sharedInstance]handleRemoteNotification:userInfo andAppstate:application.applicationState];
+    }
     // app is in the foreground so call notification callback
     if (application.applicationState == UIApplicationStateActive) {
         NSLog(@"app active");

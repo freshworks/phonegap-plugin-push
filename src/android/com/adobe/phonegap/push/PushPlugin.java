@@ -25,6 +25,8 @@ import java.util.Iterator;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.freshdesk.hotline.Hotline;
+
 import me.leolin.shortcutbadger.ShortcutBadger;
 
 public class PushPlugin extends CordovaPlugin implements PushConstants {
@@ -75,7 +77,7 @@ public class PushPlugin extends CordovaPlugin implements PushConstants {
 
                         if (!"".equals(registration_id)) {
                             JSONObject json = new JSONObject().put(REGISTRATION_ID, registration_id);
-
+                            Hotline.getInstance(getApplicationContext()).updateGcmRegistrationToken(registration_id);
                             Log.v(LOG_TAG, "onRegistered: " + json.toString());
 
                             JSONArray topics = jo.optJSONArray(TOPICS);
